@@ -1,0 +1,110 @@
+{% extends "quizapp/layout.html" %}
+
+{% block title %}The Ultimate Quiz{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+
+	#quiz-container {
+		width: 50%
+		margin: 0 auto;
+	}
+	h1,h3,h2 {
+		text-align: center;
+	}
+	#question {
+		text-align: center;
+	}
+	#answers {
+		text-align: center;
+	}
+	#submit-container {
+		text-align: center;
+		margin: 0 auto;
+	}
+	
+</style>
+
+<div class="container" id="quiz-container">
+
+	<br>
+	<br>
+	<h1>The Ultimate Quiz</h1>
+	<br>
+	<br>
+
+	<form action="/" method="POST" id="form" name="form">
+		{% csrf_token %}
+		{% for question,answer in answers.items %}
+
+			<br>
+			<h3>{{question}}</h3>
+			<br>
+
+			{% for selection in answer %}
+				
+				<div class="radio" id="answers">
+		      		<label>
+		        		<input type="radio" name="question{{ question.id }}" id="radioOption{{selection.id}}" value="{{selection}}">
+		        		{{ selection.answer_text }}
+		      		</label>
+				</div>
+					
+			{% endfor %}
+
+		{% endfor %}
+
+		<br>
+		<div class="container" id="submit-container">
+			<button type="button" class="btn btn-primary" id="subButton">Submit</button>
+		</div>
+
+	</form>
+
+	<div class="container" id="score">
+		{% if post %}
+
+			<div class="container" id="submit-container">
+				<button type="button" class="btn btn-primary" id="returnButton">Retry</button>
+			</div>
+
+			<form action="/" method="GET" id="returnForm"></form>
+			<h2>Score = {{score}}/12</h2>
+
+		{% endif %}
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+    	$("#subButton").click(function(){
+    		// check if all groups answered
+
+    		var filled = true;
+    		for (var i = {{ num_questions }}; i >= 1; i--) {
+
+    			if (!$("input[name='question" + i + "']:checked").val()) {
+				   filled = false;
+				}
+    		};
+
+    		if(filled == true) {
+    			$("#form").submit();
+    		} else {
+    			alert('Make Sure To Answer Every Question!');
+    		}
+
+    	}); 
+
+    	$("#returnButton").click(function(){
+    		location.reload()
+    	});
+	});
+
+</script>
+
+{% endblock %}
+
