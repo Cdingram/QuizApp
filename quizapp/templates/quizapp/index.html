@@ -33,7 +33,19 @@
 	<h1>The Ultimate Quiz</h1>
 	<br>
 	<br>
+	<div class="container" id="score">
+		{% if post %}
 
+			<div class="container" id="submit-container">
+				<button type="button" class="btn btn-primary" id="returnButton">Retry</button>
+			</div>
+
+			<form action="/" method="GET" id="returnForm"></form>
+			<h2>Score = {{score}}/12</h2>
+
+		{% endif %}
+	</div>
+	<br>
 	<form action="/" method="POST" id="form" name="form">
 		{% csrf_token %}
 		{% for question,answer in answers.items %}
@@ -62,18 +74,7 @@
 
 	</form>
 
-	<div class="container" id="score">
-		{% if post %}
-
-			<div class="container" id="submit-container">
-				<button type="button" class="btn btn-primary" id="returnButton">Retry</button>
-			</div>
-
-			<form action="/" method="GET" id="returnForm"></form>
-			<h2>Score = {{score}}/12</h2>
-
-		{% endif %}
-	</div>
+	
 
 </div>
 
@@ -84,7 +85,7 @@
     		// check if all groups answered
 
     		var filled = true;
-    		for (var i = {{ num_questions }}; i >= 1; i--) {
+    		for (var i = 12; i >= 1; i--) {
 
     			if (!$("input[name='question" + i + "']:checked").val()) {
 				   filled = false;

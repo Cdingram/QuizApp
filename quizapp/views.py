@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 from .models import *
 
-NUM_QUESTIONS = 2
+NUM_QUESTIONS = 12
 
 def index(request):
 
@@ -27,7 +27,7 @@ def index(request):
 			answers2 = get_list_or_404(Answer, question=question)
 
 			for answer in answers2:
-
+				
 				if request.POST["question"+str(question.id)] == answer.answer_text:
 
 					answerAttempt = AnswerAttempt.objects.create(quiz_attempt=quizAttempt, answer=answer, question=question)
