@@ -4,6 +4,7 @@
 
 {% block content %}
 
+<!-- Minimal CSS to center -->
 <style type="text/css">
 
 	#quiz-container {
@@ -33,6 +34,8 @@
 	<h1>The Ultimate Quiz</h1>
 	<br>
 	<br>
+
+	<!-- If its a POST request, display the users score and a retry button to reset the quiz -->
 	<div class="container" id="score">
 		{% if post %}
 
@@ -46,6 +49,11 @@
 		{% endif %}
 	</div>
 	<br>
+
+	<!-- This form contains the answers in groups of radio buttons, described by 'question' + the question id -->
+	<!-- The for loop loops through the questions and displays them and their respective answers defined in the dictionary we passed from the view -->
+
+
 	<form action="/" method="POST" id="form" name="form">
 		{% csrf_token %}
 		{% for question,answer in answers.items %}
@@ -86,20 +94,22 @@
 
     		var filled = true;
     		for (var i = 12; i >= 1; i--) {
-
+    			// if there is an unchecked group, prompt the user to fill out all answers
     			if (!$("input[name='question" + i + "']:checked").val()) {
 				   filled = false;
 				}
     		};
 
     		if(filled == true) {
+    			// if everything is checked out, submit the form
     			$("#form").submit();
     		} else {
+    			// prompt to asnwer every question
     			alert('Make Sure To Answer Every Question!');
     		}
 
     	}); 
-
+    	// if return button is hit, reload the page
     	$("#returnButton").click(function(){
     		location.reload()
     	});
